@@ -22,6 +22,10 @@ class Shop < ApplicationRecord
     books_shops.where(book_id: books.where(publisher_id: publisher_id).pluck(:id).uniq).each {|book| @counts[book.book_id] += 1}
   end
 
+  def inventory_count(book_id)
+    books_shops.where(book_id: book_id).count
+  end
+
   def sell(book_id, count = 1)
     unpurchased_books = self.books_shops.where(book: book_id, sold: false).limit(count)
     if unpurchased_books.count == count
