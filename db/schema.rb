@@ -26,10 +26,9 @@ ActiveRecord::Schema.define(version: 2020_08_18_220133) do
   create_table "books_shops", force: :cascade do |t|
     t.bigint "shop_id", null: false
     t.bigint "book_id", null: false
-    t.boolean "sold", default: false
+    t.bigint "sold", default: 0
     t.index ["book_id", "shop_id"], name: "index_books_shops_on_book_id_and_shop_id"
     t.index ["shop_id", "book_id"], name: "index_books_shops_on_shop_id_and_book_id"
-    t.index ["sold"], name: "index_books_shops_on_sold"
   end
 
   create_table "publishers", force: :cascade do |t|

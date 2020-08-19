@@ -4,7 +4,7 @@ class CreateJoinTableShopBook < ActiveRecord::Migration[6.0]
       t.primary_key :id
       t.index [:shop_id, :book_id]
       t.index [:book_id, :shop_id]
-      t.boolean :sold, default: false, index: true
+      t.bigint :sold, default: false
     end
   end
 end
