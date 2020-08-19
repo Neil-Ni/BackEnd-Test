@@ -17,10 +17,8 @@ class Shop < ApplicationRecord
   end
 
   def stock_counts(publisher_id)
-    return @counts if @counts
     @counts = Hash.new(0)
     books_shops.where(book_id: books.where(publisher_id: publisher_id).pluck(:id).uniq).each {|book| @counts[book.book_id] += 1}
-    @counts
   end
 
   def sell(book_id, count = 1)
