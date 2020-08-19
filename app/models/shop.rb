@@ -11,12 +11,8 @@ class Shop < ApplicationRecord
      books_in_stock: books_in_stock(publisher_id)}
   end
 
-  def books_in_stock(publisher_id = nil)
-    if publisher_id
-      books.where(publisher_id: publisher_id).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: stock.where(book_id: book.id).count}}
-    else
-      books.uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: stock.where(book_id: book.id).count}}
-    end
+  def books_in_stock(publisher_id)
+    books.where(publisher_id: publisher_id).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: stock.where(book_id: book.id).count}}
   end
 
   def sell(book_id, count = 1)
