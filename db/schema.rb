@@ -16,17 +16,19 @@ ActiveRecord::Schema.define(version: 2020_08_18_220133) do
   enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.integer "publisher_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["publisher_id"], name: "index_books_on_publisher_id"
   end
 
-  create_table "books_shops", id: false, force: :cascade do |t|
+  create_table "books_shops", force: :cascade do |t|
     t.bigint "shop_id", null: false
     t.bigint "book_id", null: false
     t.boolean "sold", default: false
+    t.index ["book_id", "shop_id"], name: "index_books_shops_on_book_id_and_shop_id"
+    t.index ["shop_id", "book_id"], name: "index_books_shops_on_shop_id_and_book_id"
     t.index ["sold"], name: "index_books_shops_on_sold"
   end
 
