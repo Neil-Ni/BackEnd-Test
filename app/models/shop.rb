@@ -19,11 +19,11 @@ class Shop < ApplicationRecord
     end
   end
 
-  def sell(book_id)
-    book = self.books_shops.find_by(book: book_id, sold: false)
-    if book
-      book.sold = true
-      book.save
+  def sell(book_id, count = 1)
+    unpurchased_books = self.books_shops.where(book: book_id, sold: false).limit(count)
+    if unpurchased_books.count == count
+      unpurchased_books.update_all(sold: true)
+      return true
     else
       return false
     end
