@@ -1,8 +1,8 @@
 class Shop < ApplicationRecord
   has_many :books_shops
   alias_attribute :stock, :books_shops
-  has_many :books, through: :books_shops
-  has_many :publishers, through: :books
+  has_many :books, -> {distinct}, through: :books_shops
+  has_many :publishers, -> {distinct}, through: :books
 
   def publisher_data(publisher_id)
     stock_counts(publisher_id)
