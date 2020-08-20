@@ -13,7 +13,7 @@ class Shop < ApplicationRecord
   end
 
   def books_in_stock(publisher_id)
-    books.where(publisher_id: publisher_id).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: @counts[book.id]}}
+    books.where(publisher_id: publisher_id, sold: false).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: @counts[book.id]}}
   end
 
   def stock_counts(publisher_id)
