@@ -17,7 +17,6 @@ RSpec.describe "ShopsControllers", type: :request do
   describe "PUT #update" do
     it "sells books" do
       put shop_path(@shop.id), params: {book_id: @book.id, count: @shop.inventory_count(@book.id)}
-
       expect(response).to have_http_status(200)
     end
 
