@@ -14,7 +14,7 @@ RSpec.describe Publisher, type: :model do
     @book = @shop.books.first
   end
 
-  describe "publishes" do
+  describe "has" do
     it "books" do
       expect(@publisher.books.length).to eq(Book.where(publisher_id: @publisher.id).count)
     end
