@@ -12,14 +12,13 @@ class Shop < ApplicationRecord
   end
 
   def books_in_stock(publisher_id)
-    stock_counts(publisher_id) unless @counts
-    books.where(publisher_id: publisher_id,).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: @counts[publisher_id][book.id]}}
+    books.where(publisher_id: publisher_id).uniq.map {|book| {id: book.id, title: book.title, copies_in_stock: stock_counts(publisher_id)[book.id]}}.select {|book| book[:copies_in_stock] > 0}
   end
 
-  def stock_counts(publisher_id)
+  def stock_counts(publisher_id) ### preloads counts of all of the requested publisher's books to reduce database calls
     return @counts[publisher_id] if @counts
     @counts = Hash.new
-    books_shops.where(book_id: books.where(publisher_id: publisher_id).pluck(:id).uniq).each do |book|
+    books_shops.where(book_id: books.where(publisher_id: publisher_id).pluck(:id).uniq, sold: false).each do |book|
       @counts[publisher_id] ||= Hash.new(0)
       @counts[publisher_id][book.book_id] += 1
     end
@@ -30,9 +29,9 @@ class Shop < ApplicationRecord
     books_shops.where(book_id: book_id, sold: false).count
   end
 
-  def sell(book_id, count = 1)
-    unpurchased_books = self.books_shops.where(book: book_id, sold: false).limit(count)
-    return false if unpurchased_books.count != count || count < 1
+  def sell(book_id, count = 1) ### default value of 1 book
+    unpurchased_books = self.books_shops.where(book: book_id, sold: false).limit(count) ### retrieves only the amount necessary
+    return false if unpurchased_books.count != count || count < 1 ### protects against errors with low stock and negative numbers
     unpurchased_books.update_all(sold: true)
     return true
   end
