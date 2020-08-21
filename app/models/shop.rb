@@ -27,7 +27,7 @@ class Shop < ApplicationRecord
   end
 
   def inventory_count(book_id)
-    books_shops.where(book_id: book_id).count
+    books_shops.where(book_id: book_id, sold: false).count
   end
 
   def sell(book_id, count = 1)
