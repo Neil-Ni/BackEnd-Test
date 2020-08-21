@@ -16,7 +16,7 @@ RSpec.describe Book, type: :model do
 
   describe "has" do
     it "shops" do
-      expect(@book.shops.count).to eq(BooksShop.where(book_id: @book.id).pluck(:shop_id).count)
+      expect(@book.shops.pluck(:id).sort).to eq(BooksShop.where(book_id: @book.id).pluck(:shop_id).sort)
     end
 
     it "publishers" do

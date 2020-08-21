@@ -16,7 +16,7 @@ RSpec.describe Shop, type: :model do
 
   describe "has" do
     it "books" do
-      expect(@shop.books.length).to eq(BooksShop.where(shop_id: @shop.id).pluck(:book_id).uniq.count)
+      expect(@shop.books.pluck(:id).sort).to eq(BooksShop.where(shop_id: @shop.id).pluck(:book_id).uniq.sort)
     end
 
     it "books in stock" do
@@ -26,7 +26,7 @@ RSpec.describe Shop, type: :model do
     end
 
     it "publishers" do
-      expect(@shop.publishers.length).to eq(@shop.books.pluck(:publisher_id).uniq.count)
+      expect(@shop.publishers.pluck(:id)).to eq(@shop.books.pluck(:publisher_id).uniq.sort)
     end
   end
 

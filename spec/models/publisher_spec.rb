@@ -20,7 +20,7 @@ RSpec.describe Publisher, type: :model do
     end
 
     it "books in shops" do
-      expect(@publisher.shops.length).to eq(BooksShop.where(book_id: Book.where(publisher_id: @publisher.id).pluck(:id)).pluck(:shop_id).uniq.count)
+      expect(@publisher.shops.pluck(:id)).to eq(BooksShop.where(book_id: Book.where(publisher_id: @publisher.id).pluck(:id)).pluck(:shop_id).uniq.sort)
     end
   end
 
