@@ -32,11 +32,8 @@ class Shop < ApplicationRecord
 
   def sell(book_id, count = 1)
     unpurchased_books = self.books_shops.where(book: book_id, sold: false).limit(count)
-    if unpurchased_books.count == count
-      unpurchased_books.update_all(sold: true)
-      return true
-    else
-      return false
-    end
+    return false if unpurchased_books.count != count || count < 1
+    unpurchased_books.update_all(sold: true)
+    return true
   end
 end
