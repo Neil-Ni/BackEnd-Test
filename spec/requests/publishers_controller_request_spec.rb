@@ -23,7 +23,7 @@ RSpec.describe PublishersController, type: :request do
       get publisher_path(@publisher.id)
       data = JSON.parse(response.body)
       expect(data.class).to eq(Hash)
-      expect(data[:shops].count).to eq(@publisher.shops.count)
+      expect(data['shops'].count).to eq(@publisher.shops.count)
     end
   end
 end
